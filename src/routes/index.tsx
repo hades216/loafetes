@@ -24,17 +24,37 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   const [scrollY, setScrollY] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    const onScroll = () => setScrollY(window.scrollY);
+    const mq = window.matchMedia("(max-width: 767px)");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setIsMobile(mq.matches || reduce.matches);
+    update();
+    mq.addEventListener("change", update);
+    reduce.addEventListener("change", update);
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        setScrollY(window.scrollY);
+        raf = 0;
+      });
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      mq.removeEventListener("change", update);
+      reduce.removeEventListener("change", update);
+    };
   }, []);
+  const px = (v: number) => (isMobile ? 0 : v);
+
 
   return (
     <>
       {/* HERO */}
       <section className="relative min-h-screen w-full overflow-hidden">
-        <div className="absolute inset-0 will-change-transform" style={{ transform: `translate3d(0, ${scrollY * 0.35}px, 0) scale(1.08)` }}>
+        <div className="absolute inset-0 will-change-transform" style={{ transform: `translate3d(0, ${px(scrollY * 0.35)}px, 0) scale(1.08)` }}>
           <img
             src={heroImg}
             alt="Luxury modern villa at golden hour"
@@ -45,18 +65,18 @@ function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-ink/30 to-ink/80" />
         </div>
 
-        <div className="relative z-10 container-x min-h-screen flex flex-col justify-end pb-32 pt-40 text-background">
-          <p className="eyebrow text-background/80 mb-6 animate-fade-up" style={{ ['--tw-text-opacity' as never]: 1 }}>
+        <div className="relative z-10 container-x min-h-screen flex flex-col justify-end pb-20 sm:pb-28 lg:pb-32 pt-32 sm:pt-40 text-background">
+          <p className="eyebrow text-background/80 mb-4 sm:mb-6 animate-fade-up">
             <span className="text-background/80">Complete Home Solutions</span>
           </p>
-          <h1 className="font-display text-5xl sm:text-6xl lg:text-8xl max-w-5xl leading-[0.95] animate-fade-up" style={{ animationDelay: "120ms" }}>
+          <h1 className="font-display text-[2.5rem] xs:text-5xl sm:text-6xl lg:text-8xl max-w-5xl leading-[0.98] animate-fade-up" style={{ animationDelay: "120ms" }}>
             Building <span className="gold-text">dream homes</span>
             <br />with excellence.
           </h1>
-          <p className="mt-8 max-w-2xl text-base sm:text-lg text-background/85 leading-relaxed animate-fade-up" style={{ animationDelay: "260ms" }}>
+          <p className="mt-6 sm:mt-8 max-w-2xl text-sm sm:text-lg text-background/85 leading-relaxed animate-fade-up" style={{ animationDelay: "260ms" }}>
             From concept and design to construction and finishing, Zeeya Home delivers premium home solutions across Pakistan — with quality craftsmanship and modern innovation.
           </p>
-          <div className="mt-10 flex flex-wrap gap-4 animate-fade-up" style={{ animationDelay: "400ms" }}>
+          <div className="mt-8 sm:mt-10 flex flex-wrap gap-3 sm:gap-4 animate-fade-up" style={{ animationDelay: "400ms" }}>
             <Link to="/book" className="btn-gold !bg-gold !text-ink !border-gold hover:!bg-background hover:!text-ink hover:!border-background">
               Book Consultation <ArrowRight className="h-4 w-4" />
             </Link>
@@ -66,17 +86,18 @@ function HomePage() {
           </div>
 
           {/* Floating stats */}
-          <div className="mt-20 grid grid-cols-2 lg:grid-cols-4 gap-px bg-background/10 backdrop-blur-md rounded-2xl overflow-hidden border border-background/15">
+          <div className="mt-12 sm:mt-20 grid grid-cols-2 lg:grid-cols-4 gap-px bg-background/10 backdrop-blur-md rounded-2xl overflow-hidden border border-background/15">
             {STATS.map((s, i) => (
-              <div key={s.label} className="bg-ink/30 px-6 py-7 animate-fade-up" style={{ animationDelay: `${500 + i * 100}ms` }}>
-                <p className="font-display text-4xl sm:text-5xl text-background">
+              <div key={s.label} className="bg-ink/30 px-4 sm:px-6 py-5 sm:py-7 animate-fade-up" style={{ animationDelay: `${500 + i * 100}ms` }}>
+                <p className="font-display text-3xl sm:text-5xl text-background">
                   <Counter to={s.value} suffix={s.suffix} />
                 </p>
-                <p className="mt-2 text-[11px] uppercase tracking-[0.22em] text-background/70">{s.label}</p>
+                <p className="mt-1.5 sm:mt-2 text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-background/70">{s.label}</p>
               </div>
             ))}
           </div>
         </div>
+
 
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-background/70 text-[10px] uppercase tracking-[0.4em] animate-fade-in-slow">
           Scroll
@@ -154,7 +175,7 @@ function HomePage() {
           style={{
             backgroundImage: `url(${interiorImg})`,
             backgroundSize: "cover",
-            backgroundPosition: `center ${scrollY * -0.05}px`,
+            backgroundPosition: `center ${px(scrollY * -0.05)}px`,
           }}
         />
         <div className="container-x">
@@ -229,7 +250,7 @@ function HomePage() {
         <div className="relative overflow-hidden order-2 lg:order-1">
           <div
             className="absolute inset-0 will-change-transform"
-            style={{ transform: `translate3d(0, ${(scrollY - 2400) * 0.1}px, 0) scale(1.1)` }}
+            style={{ transform: `translate3d(0, ${px((scrollY - 2400) * 0.1)}px, 0) scale(1.1)` }}
           >
             <img src={constructionImg} alt="Construction site" loading="lazy" width={1280} height={960} className="h-full w-full object-cover" />
           </div>
@@ -269,7 +290,7 @@ function HomePage() {
         <div className="relative overflow-hidden">
           <div
             className="absolute inset-0 will-change-transform"
-            style={{ transform: `translate3d(0, ${(scrollY - 3200) * 0.08}px, 0) scale(1.1)` }}
+            style={{ transform: `translate3d(0, ${px((scrollY - 3200) * 0.08)}px, 0) scale(1.1)` }}
           >
             <img src={exteriorImg} alt="Luxury villa exterior" loading="lazy" width={1280} height={960} className="h-full w-full object-cover" />
           </div>
@@ -314,7 +335,7 @@ function HomePage() {
           style={{
             backgroundImage: `url(${heroImg})`,
             backgroundSize: "cover",
-            backgroundPosition: `center ${scrollY * -0.04}px`,
+            backgroundPosition: `center ${px(scrollY * -0.04)}px`,
           }}
         />
         <div className="absolute inset-0 bg-ink/75" />
