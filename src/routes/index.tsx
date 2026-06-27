@@ -54,7 +54,7 @@ function HomePage() {
     <>
       {/* HERO */}
       <section className="relative min-h-screen w-full overflow-hidden">
-        <div className="absolute inset-0 will-change-transform" style={{ transform: `translate3d(0, ${scrollY * 0.35}px, 0) scale(1.08)` }}>
+        <div className="absolute inset-0 will-change-transform" style={{ transform: `translate3d(0, ${px(scrollY * 0.35)}px, 0) scale(1.08)` }}>
           <img
             src={heroImg}
             alt="Luxury modern villa at golden hour"
@@ -174,7 +174,7 @@ function HomePage() {
           style={{
             backgroundImage: `url(${interiorImg})`,
             backgroundSize: "cover",
-            backgroundPosition: `center ${scrollY * -0.05}px`,
+            backgroundPosition: `center ${px(scrollY * -0.05)}px`,
           }}
         />
         <div className="container-x">
@@ -249,7 +249,7 @@ function HomePage() {
         <div className="relative overflow-hidden order-2 lg:order-1">
           <div
             className="absolute inset-0 will-change-transform"
-            style={{ transform: `translate3d(0, ${(scrollY - 2400) * 0.1}px, 0) scale(1.1)` }}
+            style={{ transform: `translate3d(0, ${px((scrollY - 2400) * 0.1)}px, 0) scale(1.1)` }}
           >
             <img src={constructionImg} alt="Construction site" loading="lazy" width={1280} height={960} className="h-full w-full object-cover" />
           </div>
@@ -289,7 +289,7 @@ function HomePage() {
         <div className="relative overflow-hidden">
           <div
             className="absolute inset-0 will-change-transform"
-            style={{ transform: `translate3d(0, ${(scrollY - 3200) * 0.08}px, 0) scale(1.1)` }}
+            style={{ transform: `translate3d(0, ${px((scrollY - 3200) * 0.08)}px, 0) scale(1.1)` }}
           >
             <img src={exteriorImg} alt="Luxury villa exterior" loading="lazy" width={1280} height={960} className="h-full w-full object-cover" />
           </div>
@@ -334,7 +334,7 @@ function HomePage() {
           style={{
             backgroundImage: `url(${heroImg})`,
             backgroundSize: "cover",
-            backgroundPosition: `center ${scrollY * -0.04}px`,
+            backgroundPosition: `center ${px(scrollY * -0.04)}px`,
           }}
         />
         <div className="absolute inset-0 bg-ink/75" />
