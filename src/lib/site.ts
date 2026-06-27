@@ -1,4 +1,4 @@
-import logoAsset from "@/assets/zeeya-logo.png.asset.json";
+import logoUrl from "@/assets/logo.png";
 
 export const SITE = {
   name: "Zeeya Home",
@@ -14,7 +14,7 @@ export const SITE = {
     postal: "54000",
   },
   coverage: ["Islamabad", "Rawalpindi", "Nationwide Projects"],
-  logoUrl: logoAsset.url,
+  logoUrl: logoUrl,
   socials: [
     { name: "Instagram", href: "https://instagram.com" },
     { name: "Facebook", href: "https://facebook.com" },
