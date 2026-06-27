@@ -177,7 +177,7 @@
 @utility animate-slide-left { animation: slideLeft 700ms ease-out both; }
 @utility animate-slide-right { animation: slideRight 700ms ease-out both; }
 @utility animate-marquee { animation: marquee 50s linear infinite; }
-@utility animate-float { animation: floatY 6s ease-in-out infinite; }
+@media (max-width: 640px) { .animate-marquee { animation-duration: 32s; } }
 
 @utility gold-text {
   background: linear-gradient(120deg, var(--gold-soft), var(--gold) 50%, var(--gold-soft));
