@@ -203,8 +203,14 @@
 @utility container-x {
   width: 100%;
   margin-inline: auto;
-  padding-inline: 1.25rem;
+  padding-inline: 1rem;
   max-width: 1280px;
+}
+@media (min-width: 640px) {
+  .container-x { padding-inline: 1.5rem; }
+}
+@media (min-width: 1024px) {
+  .container-x { padding-inline: 2rem; }
 }
 
 @utility btn-gold {
@@ -212,18 +218,31 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.95rem 1.75rem;
+  min-height: 48px;
+  padding: 0.85rem 1.5rem;
   background: var(--ink);
   color: var(--background);
   border: 1px solid var(--ink);
   border-radius: 9999px;
   font-weight: 500;
   letter-spacing: 0.02em;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   text-transform: uppercase;
   position: relative;
   overflow: hidden;
   transition: all 400ms cubic-bezier(0.22,1,0.36,1);
+  &:hover {
+    background: var(--gold);
+    color: var(--ink);
+    border-color: var(--gold);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px -12px color-mix(in oklab, var(--gold) 70%, transparent);
+  }
+  &:active { transform: translateY(0) scale(0.98); }
+}
+@media (min-width: 640px) {
+  .btn-gold { padding: 0.95rem 1.75rem; font-size: 0.875rem; }
+}
   &:hover {
     background: var(--gold);
     color: var(--ink);
